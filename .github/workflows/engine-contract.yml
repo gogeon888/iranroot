@@ -1,0 +1,25 @@
+name: Engine contract check
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Unpack project.zip
+        run: |
+          set -e
+          unzip -o project.zip -d _u
+          cp -rf _u/RootMyVivo/. .
+          rm -rf _u project.zip
+
+      - name: Contract check
+        run: python3 tools/engine_contract_check.py
+
+      - name: Simulate merged script (stub run)
+        run: bash tools/sim_check.sh
