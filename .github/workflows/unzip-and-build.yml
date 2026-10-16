@@ -1,0 +1,43 @@
+# 手机专用：把 project.zip 放进仓库根，这个 workflow 会自动解包并出包
+name: Build from project.zip
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Unpack project.zip
+        run: |
+          set -e
+          ls -la
+          unzip -o project.zip -d _unpack
+          cp -rf _unpack/RootMyVivo/. .
+          rm -rf _unpack project.zip
+          test -f gradlew || { echo "project.zip 里没有 gradlew，检查未解压正确"; exit 1; }
+          chmod +x gradlew
+          ls -la app/src/main/jniLibs/arm64-v8a/ || true
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v3
+
+      - name: Build Debug APK
+        run: ./gradlew :app:assembleDebug --no-daemon --stacktrace
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: yiran-debug-apk
+          path: |
+            app/build/outputs/apk/debug/*.apk
+            app/build/reports/**
