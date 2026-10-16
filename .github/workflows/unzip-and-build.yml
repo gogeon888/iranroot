@@ -23,6 +23,12 @@ jobs:
           test -f gradlew
           chmod +x gradlew
 
+      - name: Use fixed debug keystore
+        run: |
+          mkdir -p "$HOME/.android"
+          echo "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" | base64 -d > "$HOME/.android/debug.keystore"
+          ls -l "$HOME/.android/debug.keystore"
+
       - uses: actions/setup-java@v4
         with:
           java-version: '21'
@@ -33,14 +39,10 @@ jobs:
       - name: Build Debug APK
         run: ./gradlew :app:assembleDebug --no-daemon --stacktrace
 
-      # ① 打印校验信息
       - name: Report APK
         if: always()
-        run: |
-          ls -l app/build/outputs/apk/debug/ || true
-          sha256sum app/build/outputs/apk/debug/*.apk || true
+        run: sha256sum app/build/outputs/apk/debug/*.apk || true
 
-      # ② 发布到 Release（公开仓库无需登录即可下载）
       - name: Publish Release
         if: success()
         uses: softprops/action-gh-release@v2
@@ -48,20 +50,11 @@ jobs:
           tag_name: v1.0-build${{ github.run_number }}
           name: 依然一键root v1.0 (build ${{ github.run_number }})
           body: |
-            自动构建产物（debug 签名）。基于 RootMyVivo 外壳 + GhostLock 引擎 + 无痕一键root 载荷链。
-            署名：GhostLock 原作者 YuKongA ｜ 无痕一键root 作者 酷安@寂寞夜无痕 ｜ RootMyVivo 作者 zenyxx-xd ｜ 整合 酷安@依然饭后吸
+            自动构建产物（固定 debug 签名 · 可覆盖安装）。
+            基于 RootMyVivo 外壳 + GhostLock 引擎 + 无痕一键root 载荷链。
+            署名：YuKongA ｜ 酷安@寂寞夜无痕 ｜ zenyxx-xd ｜ 酷安@依然饭后吸
           files: app/build/outputs/apk/debug/*.apk
           fail_on_unmatched_files: true
-
-      # ③ 备用：传到公开直链（无需登录），并把链接打进日志
-      - name: Fallback public link
-        if: success()
-        run: |
-          APK=$(ls app/build/outputs/apk/debug/*.apk | head -1)
-          echo "=== 备用直链 ==="
-          curl -sS --max-time 120 -F "file=@$APK" https://0x0.st || echo "(0x0.st 不可用，忽略)"
-          echo "=== 备用直链结束 ==="
-          curl -sS --max-time 120 --upload-file "$APK" https://transfer.sh/yiran-root.apk || true
 
       - uses: actions/upload-artifact@v4
         if: always()
